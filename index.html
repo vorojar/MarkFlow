@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown 阅读器</title>
+    <title>MarkFlow - 专业的 Markdown 编辑器 | 实时预览 | 一键导出图片</title>
+    <meta name="description" content="MarkFlow 是一款专业的在线 Markdown 编辑器，支持实时预览、代码高亮、一键导出图片、快捷工具栏等功能。为开发者、技术写作者和内容创作者提供高效的写作体验。">
+    <meta name="keywords" content="Markdown编辑器,在线Markdown,实时预览,代码高亮,图片导出,技术写作,内容创作,开发文档">
+    <meta name="author" content="vorojar">
+    <meta property="og:title" content="MarkFlow - 专业的 Markdown 编辑器">
+    <meta property="og:description" content="专业的在线 Markdown 编辑器，支持实时预览、代码高亮、一键导出图片等功能">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/vorojar/markdown">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MarkFlow - 专业的 Markdown 编辑器">
+    <meta name="twitter:description" content="专业的在线 Markdown 编辑器，支持实时预览、代码高亮、一键导出图片等功能">
+    <link rel="canonical" href="https://github.com/vorojar/markdown">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -426,7 +437,7 @@
     <nav class="bg-white shadow-lg fixed top-0 left-0 right-0 z-10">
         <div class="px-4 py-2">
             <div class="flex justify-between items-center">
-                <div class="text-lg font-bold text-gray-800">Markdown 阅读器</div>
+                <div class="text-lg font-bold text-gray-800">MarkFlow - 专业的 Markdown 编辑器</div>
                 <a href="https://github.com/vorojar/markdown" target="_blank" class="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded hover:bg-gray-200 transition-colors flex items-center gap-1">
                     <i class="fab fa-github text-base"></i>
                     GitHub
@@ -477,7 +488,7 @@
                 <!-- 水印文字 -->
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700">水印文字</label>
-                    <input type="text" id="watermarkText" class="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" value="由 Markdown 阅读器生成" placeholder="输入水印文字">
+                    <input type="text" id="watermarkText" class="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" value="由 MarkFlow 生成" placeholder="输入水印文字">
                 </div>
 
                 <!-- 内边距大小 -->
@@ -660,7 +671,7 @@
         const imageSettings = {
             backgroundColor: '#ffffff',
             borderStyle: 'simple',
-            watermarkText: '由 Markdown 阅读器生成',
+            watermarkText: '由 MarkFlow 生成',
             padding: 'medium'
         };
 
@@ -767,7 +778,7 @@
         resetSettings.addEventListener('click', () => {
             imageSettings.backgroundColor = '#ffffff';
             imageSettings.borderStyle = 'simple';
-            imageSettings.watermarkText = '由 Markdown 阅读器生成';
+            imageSettings.watermarkText = '由 MarkFlow 生成';
             imageSettings.padding = 'medium';
 
             // 更新 UI
