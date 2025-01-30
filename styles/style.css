@@ -1,0 +1,298 @@
+html, body {    
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* 自定义滚动条 */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 设置面板动画 */
+@keyframes slideIn {
+    from { 
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to { 
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.settings-panel {
+    animation: slideIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settings-panel.hiding {
+    animation: slideOut 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay-fade-in {
+    animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay-fade-out {
+    animation: fadeOut 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 颜色选择器样式 */
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 2px solid transparent;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border-color: #3b82f6;
+    transform: scale(1.1);
+}
+
+/* 按钮选中样式 */
+.style-button {
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.style-button.selected {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.style-button:hover {
+    border-color: #3b82f6;
+}
+
+.highlight-text {
+    background-color: rgba(255, 255, 0, 0.5);
+    border-bottom: 2px solid rgba(255, 200, 0, 0.8);
+    border-radius: 2px;
+    padding: 0 2px;
+    margin: 0 1px;
+    transition: all 0.2s ease;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 8px;
+    position: absolute;
+    z-index: 1;
+    top: calc(100% + 5px); /* 调整距离按钮的距离 */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* 处理左侧边界问题 */
+.tooltip:first-child .tooltiptext {
+    left: 0;
+    transform: none;
+}
+
+/* 添加小箭头 */
+.tooltip .tooltiptext::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+}
+
+/* 第一个 tooltip 的箭头位置调整 */
+.tooltip:first-child .tooltiptext::before {
+    left: 10px;
+    margin-left: 0;
+}
+
+/* 确保 tooltip 不会被遮挡 */
+.md-toolbar {
+    position: relative;
+    z-index: 2;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.md-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background-color: white;
+    color: #4a5568;
+    transition: all 0.2s;
+    position: relative;
+}
+
+/* 工具栏右侧按钮样式 */
+.toolbar-group:last-child button {
+    width: auto;
+    padding: 0 8px;
+}
+
+/* 工具栏右侧按钮组中倒数第二个按钮（复制按钮）的tooltip位置调整 */
+.toolbar-group:last-child .tooltip:nth-last-child(2) .tooltiptext {
+    right: -50%; /* 向右偏移，确保文本居中显示 */
+    left: auto;
+    transform: none;
+}
+
+/* 倒数第二个按钮的tooltip箭头位置调整 */
+.toolbar-group:last-child .tooltip:nth-last-child(2) .tooltiptext::before {
+    right: 45%; /* 箭头位置稍微偏右 */
+    left: auto;
+    margin-left: 0;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.md-toolbar {
+    display: flex;
+    justify-content: space-between; /* 两端对齐 */
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.md-toolbar button {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.md-toolbar button:hover {
+    background-color: #edf2f7;
+    border-color: #cbd5e0;
+}
+
+.editor-container {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+.line-numbers {
+    width: 40px;
+    padding: 8px 0;
+    background-color: #f8f9fa;
+    border-right: 1px solid #e2e8f0;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    color: #94a3b8;
+    user-select: none;
+    overflow-y: hidden;
+}
+
+#editor {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    overflow-y: auto;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* 最后一个tooltip（清空按钮）的位置调整 */
+.tooltip:last-child .tooltiptext {
+    right: 0;
+    left: auto;
+    transform: none;
+}
+
+/* 最后一个tooltip的箭头位置调整 */
+.tooltip:last-child .tooltiptext::before {
+    right: 10px;
+    left: auto;
+    margin-left: 0;
+}
