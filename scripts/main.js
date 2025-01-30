@@ -52,7 +52,7 @@ copyHtmlBtn.addEventListener('click', () => {
 
 // 图片生成设置
 const imageSettings = {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f1f5f9',
     borderStyle: 'simple',
     watermarkText: '由 MarkFlow 生成',
     padding: 'medium'
