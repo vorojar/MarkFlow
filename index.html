@@ -297,7 +297,6 @@
         .toolbar-group {
             display: flex;
             gap: 0.25rem;
-            align-items: center;
         }
 
         .md-toolbar button {
@@ -585,15 +584,19 @@
 
             <!-- 预览区 -->
             <div class="bg-white rounded shadow-lg p-2 flex flex-col min-h-[50vh] md:min-h-0">
-                <div class="flex justify-between items-center mb-1">
+                <div class="md-toolbar">
                     <h2 class="text-base font-semibold text-gray-700">预览区</h2>
-                    <div class="flex gap-1.5">
+                    <div class="toolbar-group ml-auto">
                         <button id="copyHtmlBtn" class="px-2.5 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors flex items-center">
                             <i class="fas fa-copy mr-1"></i>
                             复制
                         </button>
                         <button id="generateImageBtn" class="px-2.5 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition-colors flex items-center">
                             <i class="fas fa-image mr-2"></i>生成图片
+                        </button>
+                        <button onclick="showSettings()" class="px-2.5 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors flex items-center">
+                            <i class="fas fa-cog mr-1"></i>
+                            设置
                         </button>
                     </div>
                 </div>
