@@ -1,6 +1,6 @@
 # MarkFlow
 
-> 专业的 Markdown 创作平台，为开发者、技术写作者和内容创作者提供极致的写作体验。
+> 优雅专业的 Markdown 超轻量编辑器，为开发者、技术写作者和内容创作者提供极致的写作体验，提供 Markdown 转 Html富文本 和 Markdown 转 PNG 图片导出功能。
 
 ![GitHub stars](https://img.shields.io/github/stars/vorojar/markdown?style=social)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
