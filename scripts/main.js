@@ -650,10 +650,8 @@ updateLineNumbers();
 function copyMarkdown() {
     const content = editor.value;
     navigator.clipboard.writeText(content).then(() => {
-        showToast('复制成功！');
     }).catch(err => {
         console.error('复制失败:', err);
-        showToast('复制失败');
     });
 }
 
@@ -664,17 +662,5 @@ function clearEditor() {
         preview.innerHTML = '';
         localStorage.removeItem('markdown-content');
         updateLineNumbers();
-        showToast('已清空内容');
     }
-}
-
-// 显示 Toast 提示
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2000);
 }
