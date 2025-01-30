@@ -262,6 +262,7 @@ html, body {
     font-size: 14px;
     line-height: 1.5;
     text-align: center;
+    white-space: pre;
     color: #94a3b8;
     user-select: none;
     overflow-y: hidden;

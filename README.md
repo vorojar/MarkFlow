@@ -7,7 +7,7 @@
 
 ## ✨ DEMO
 
-![demo](https://maikami.com/markdown/demo.png)
+![demo](./demo.png)
 
 ## ✨ 特色功能
 
