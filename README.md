@@ -66,25 +66,6 @@
 - html2canvas - 图片导出支持
 - Font Awesome - 图标支持
 
-## 快速开始
-
-1. 克隆项目:
-```bash
-git clone [项目地址]
-```
-
-2. 安装依赖:
-```bash
-npm install
-```
-
-3. 启动开发服务器:
-```bash
-npm run dev
-```
-
-4. 在浏览器中打开 `index.html` 文件
-
 ## 使用说明
 
 1. 在左侧编辑区输入 Markdown 文本
