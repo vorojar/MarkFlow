@@ -19,6 +19,18 @@ const savedContent = localStorage.getItem('markdown-content');
 if (savedContent) {
     editor.value = savedContent;
     preview.innerHTML = marked.parse(savedContent);
+} else {
+    // 首次打开时加载 README.md
+    fetch('README.md')
+        .then(response => response.text())
+        .then(content => {
+            editor.value = content;
+            preview.innerHTML = marked.parse(content);
+            localStorage.setItem('markdown-content', content);
+        })
+        .catch(error => {
+            console.error('加载 README.md 失败:', error);
+        });
 }
 
 // 实时预览
