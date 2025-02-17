@@ -11,8 +11,18 @@ marked.setOptions({
     gfm: true,     // 启用 GitHub 风格的 Markdown
     headerIds: true, // 为标题添加 id
     mangle: false,  // 不转义内联 HTML
-    sanitize: false // 允许原始 HTML
+    sanitize: false, // 允许原始 HTML
 });
+
+// 扩展 marked 的渲染器来支持高亮语法
+const renderer = new marked.Renderer();
+const defaultTextRenderer = renderer.text.bind(renderer);
+renderer.text = (text) => {
+    // 处理高亮语法
+    text = text.replace(/===(.*?)===|==(.*?)==/g, '<mark>$1$2</mark>');
+    return defaultTextRenderer(text);
+};
+marked.setOptions({ renderer });
 
 // 初始化编辑器内容
 const savedContent = localStorage.getItem('markdown-content');
@@ -563,51 +573,54 @@ function insertMarkdown(type) {
     const start = editor.selectionStart;
     const end = editor.selectionEnd;
     const selectedText = editor.value.substring(start, end);
-    let insertion = '';
+    let insertText = '';
 
     switch (type) {
         case 'heading':
-            insertion = `### ${selectedText || '标题'}`;
+            insertText = `### ${selectedText || '标题'}`;
             break;
         case 'bold':
-            insertion = `**${selectedText || '粗体文本'}**`;
+            insertText = `**${selectedText || '粗体文本'}**`;
             break;
         case 'italic':
-            insertion = `*${selectedText || '斜体文本'}*`;
+            insertText = `*${selectedText || '斜体文本'}*`;
             break;
         case 'link':
-            insertion = selectedText ? `[${selectedText}](url)` : '[链接文本](url)';
+            insertText = selectedText ? `[${selectedText}](url)` : '[链接文本](url)';
             break;
         case 'image':
-            insertion = '![图片描述](图片链接)';
+            insertText = '![图片描述](图片链接)';
             break;
         case 'code':
-            insertion = selectedText ? 
+            insertText = selectedText ? 
                 '\`\`\`\n' + selectedText + '\n\`\`\`' : 
                 '\`\`\`\n代码块\n\`\`\`';
             break;
         case 'quote':
-            insertion = `> ${selectedText || '引用文本'}`;
+            insertText = `> ${selectedText || '引用文本'}`;
             break;
         case 'list-ul':
-            insertion = selectedText || '- 列表项 1\n- 列表项 2\n- 列表项 3';
+            insertText = selectedText || '- 列表项 1\n- 列表项 2\n- 列表项 3';
             break;
         case 'list-ol':
-            insertion = selectedText || '1. 列表项 1\n2. 列表项 2\n3. 列表项 3';
+            insertText = selectedText || '1. 列表项 1\n2. 列表项 2\n3. 列表项 3';
             break;
         case 'tasks':
-            insertion = selectedText || '- [ ] 待办事项 1\n- [ ] 待办事项 2\n- [x] 已完成事项';
+            insertText = selectedText || '- [ ] 待办事项 1\n- [ ] 待办事项 2\n- [x] 已完成事项';
             break;
         case 'table':
-            insertion = '| 列标题 1 | 列标题 2 | 列标题 3 |\n| --- | --- | --- |\n| 单元格 1 | 单元格 2 | 单元格 3 |';
+            insertText = '| 列标题 1 | 列标题 2 | 列标题 3 |\n| --- | --- | --- |\n| 单元格 1 | 单元格 2 | 单元格 3 |';
             break;
         case 'hr':
-            insertion = '\n---\n';
+            insertText = '\n---\n';
+            break;
+        case 'highlight':
+            insertText = selectedText ? `===${selectedText}===` : '===高亮文本===';
             break;
     }
 
     editor.focus();
-    document.execCommand('insertText', false, insertion);
+    document.execCommand('insertText', false, insertText);
     
     // 触发 input 事件以更新预览
     const event = new Event('input', { bubbles: true });

@@ -111,63 +111,52 @@
                 <!-- Markdown 工具栏 -->
                 <div class="md-toolbar">
                     <div class="toolbar-group">
-                        <button class="tooltip" onclick="insertMarkdown('heading')">
+                        <button onclick="insertMarkdown('heading')" class="toolbar-btn" title="标题 (Ctrl+H)">
                             <i class="fas fa-heading"></i>
-                            <span class="tooltiptext">标题 (Ctrl+H)</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('bold')">
+                        <button onclick="insertMarkdown('bold')" class="toolbar-btn" title="加粗 (Ctrl+B)">
                             <i class="fas fa-bold"></i>
-                            <span class="tooltiptext">粗体 (Ctrl+B)</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('italic')">
+                        <button onclick="insertMarkdown('italic')" class="toolbar-btn" title="斜体 (Ctrl+I)">
                             <i class="fas fa-italic"></i>
-                            <span class="tooltiptext">斜体 (Ctrl+I)</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('link')">
+                        <button onclick="insertMarkdown('highlight')" class="toolbar-btn" title="高亮">
+                            <i class="fas fa-highlighter"></i>
+                        </button>
+                        <button onclick="insertMarkdown('link')" class="toolbar-btn" title="链接 (Ctrl+K)">
                             <i class="fas fa-link"></i>
-                            <span class="tooltiptext">链接 (Ctrl+K)</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('image')">
+                        <button onclick="insertMarkdown('image')" class="toolbar-btn" title="图片">
                             <i class="fas fa-image"></i>
-                            <span class="tooltiptext">图片</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('code')">
+                        <button onclick="insertMarkdown('code')" class="toolbar-btn" title="代码块">
                             <i class="fas fa-code"></i>
-                            <span class="tooltiptext">代码块</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('quote')">
+                        <button onclick="insertMarkdown('quote')" class="toolbar-btn" title="引用">
                             <i class="fas fa-quote-right"></i>
-                            <span class="tooltiptext">引用</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('list-ul')">
+                        <button onclick="insertMarkdown('list-ul')" class="toolbar-btn" title="无序列表">
                             <i class="fas fa-list-ul"></i>
-                            <span class="tooltiptext">无序列表</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('list-ol')">
+                        <button onclick="insertMarkdown('list-ol')" class="toolbar-btn" title="有序列表">
                             <i class="fas fa-list-ol"></i>
-                            <span class="tooltiptext">有序列表</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('tasks')">
+                        <button onclick="insertMarkdown('tasks')" class="toolbar-btn" title="任务列表">
                             <i class="fas fa-tasks"></i>
-                            <span class="tooltiptext">任务列表</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('table')">
+                        <button onclick="insertMarkdown('table')" class="toolbar-btn" title="表格">
                             <i class="fas fa-table"></i>
-                            <span class="tooltiptext">表格</span>
                         </button>
-                        <button class="tooltip" onclick="insertMarkdown('hr')">
+                        <button onclick="insertMarkdown('hr')" class="toolbar-btn" title="分隔线">
                             <i class="fas fa-minus"></i>
-                            <span class="tooltiptext">分隔线</span>
                         </button>
                     </div>
                     <div class="toolbar-group">
-                        <button id="copyBtn" class="tooltip" onclick="copyMarkdown()">
+                        <button id="copyBtn" class="toolbar-btn" title="复制Markdown">
                             <i class="fas fa-copy"></i>
-                            <span class="tooltiptext">复制Markdown</span>
                         </button>
-                        <button id="clearBtn" class="tooltip">
+                        <button id="clearBtn" class="toolbar-btn" title="清空内容">
                             <i class="fas fa-trash-alt"></i>
-                            <span class="tooltiptext">清空内容</span>
                         </button>
                     </div>
                 </div>
