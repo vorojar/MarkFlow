@@ -125,7 +125,7 @@
 ## 项目团队
 
 - **吴龙杰** - 项目负责人与主要开发者
-- **Cursor+ Claude Sonnet3.5** - V1.0.0~V1.1.0
+- **Cursor+ Claude Sonnet3.5** - V1.0.0 ~ V1.1.0
 - **Claude Code+Opus4.5** - V1.2.0
 
 ---
