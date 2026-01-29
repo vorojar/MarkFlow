@@ -318,6 +318,11 @@ body.dark #editor.drag-over {
 
 /* PDF 打印样式 */
 @media print {
+    /* 打印时强制使用浅色主题 */
+    body, body.dark, .dark {
+        background-color: white !important;
+    }
+
     /* 隐藏除预览区外的所有元素 */
     body * {
         visibility: hidden;
@@ -335,6 +340,28 @@ body.dark #editor.drag-over {
         padding: 20px;
         overflow: visible;
         border: none;
+        background-color: white !important;
+        color: #24292e !important;
+    }
+
+    /* 打印时表格使用浅色样式 */
+    #preview th {
+        background-color: #f6f8fa !important;
+        color: #24292e !important;
+    }
+
+    #preview td {
+        color: #24292e !important;
+    }
+
+    /* 打印时代码块使用浅色样式 */
+    #preview pre {
+        background-color: #f6f8fa !important;
+    }
+
+    #preview code {
+        background-color: rgba(175, 184, 193, 0.2) !important;
+        color: #24292e !important;
     }
 
     /* 分页控制 - 避免元素内部分页 */
