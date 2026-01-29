@@ -277,6 +277,16 @@ html, body {
     line-height: 1.5;
     resize: none;
     overflow-y: auto;
+    transition: background-color 0.2s;
+}
+
+#editor.drag-over {
+    background-color: #e0f2fe;
+}
+
+.dark #editor.drag-over,
+body.dark #editor.drag-over {
+    background-color: #1e3a5f;
 }
 
 .toolbar-group {
@@ -304,4 +314,317 @@ html, body {
     line-height: 1.6;
     color: #24292e;
     overflow-y: auto;
+}
+
+/* PDF 打印样式 */
+@media print {
+    /* 隐藏除预览区外的所有元素 */
+    body * {
+        visibility: hidden;
+    }
+
+    #preview, #preview * {
+        visibility: visible;
+    }
+
+    #preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 20px;
+        overflow: visible;
+        border: none;
+    }
+
+    /* 分页控制 - 避免元素内部分页 */
+    #preview p,
+    #preview h1,
+    #preview h2,
+    #preview h3,
+    #preview h4,
+    #preview h5,
+    #preview h6,
+    #preview li,
+    #preview img,
+    #preview pre,
+    #preview code,
+    #preview blockquote,
+    #preview figure,
+    #preview tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    /* 标题后不分页，保持与下文连贯 */
+    #preview h1,
+    #preview h2,
+    #preview h3,
+    #preview h4,
+    #preview h5,
+    #preview h6 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    /* 段落孤行/寡行控制 */
+    #preview p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* 表格尽量不分页 */
+    #preview table {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* 状态栏样式 */
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: #6b7280;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 4px 4px;
+}
+
+.status-divider {
+    color: #d1d5db;
+}
+
+/* 深色模式 */
+.dark {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --bg-tertiary: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --border-color: #4b5563;
+}
+
+.dark body,
+body.dark {
+    background-color: var(--bg-secondary);
+}
+
+.dark nav,
+body.dark nav {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+.dark nav .text-gray-800,
+body.dark nav .text-gray-800 {
+    color: var(--text-primary);
+}
+
+.dark nav a,
+.dark nav button,
+body.dark nav a,
+body.dark nav button {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.dark nav a:hover,
+.dark nav button:hover,
+body.dark nav a:hover,
+body.dark nav button:hover {
+    background-color: var(--border-color);
+}
+
+.dark .bg-white,
+body.dark .bg-white {
+    background-color: var(--bg-primary);
+}
+
+.dark .bg-gray-100,
+body.dark .bg-gray-100 {
+    background-color: var(--bg-secondary);
+}
+
+.dark #editor,
+body.dark #editor {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.dark #editor::placeholder,
+body.dark #editor::placeholder {
+    color: var(--text-muted);
+}
+
+.dark .line-numbers,
+body.dark .line-numbers {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+.dark .editor-container,
+body.dark .editor-container {
+    border-color: var(--border-color);
+}
+
+.dark #preview,
+body.dark #preview {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.dark .md-toolbar,
+body.dark .md-toolbar {
+    background-color: var(--bg-tertiary);
+}
+
+.dark .md-toolbar button,
+body.dark .md-toolbar button {
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+
+.dark .md-toolbar button:hover,
+body.dark .md-toolbar button:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.dark .md-toolbar h2,
+body.dark .md-toolbar h2 {
+    color: var(--text-primary);
+}
+
+.dark .status-bar,
+body.dark .status-bar {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+.dark .status-divider,
+body.dark .status-divider {
+    color: var(--border-color);
+}
+
+.dark .shadow-lg,
+body.dark .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+.dark #settingsPanel,
+body.dark #settingsPanel {
+    background-color: var(--bg-primary);
+}
+
+.dark #settingsPanel h3,
+.dark #settingsPanel label,
+body.dark #settingsPanel h3,
+body.dark #settingsPanel label {
+    color: var(--text-primary);
+}
+
+.dark #settingsPanel input,
+body.dark #settingsPanel input {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark #settingsPanel .style-button,
+body.dark #settingsPanel .style-button {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.dark #settingsPanel .border-b,
+.dark #settingsPanel .border-t,
+body.dark #settingsPanel .border-b,
+body.dark #settingsPanel .border-t {
+    border-color: var(--border-color);
+}
+
+.dark #resetSettings,
+body.dark #resetSettings {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track,
+body.dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb,
+body.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+}
+
+/* 代码高亮样式 */
+#preview pre {
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    padding: 16px;
+    margin: 1em 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#preview pre code {
+    background: none;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#preview code {
+    background-color: rgba(175, 184, 193, 0.2);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 85%;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.dark #preview pre,
+body.dark #preview pre {
+    background-color: #161b22;
+}
+
+.dark #preview code,
+body.dark #preview code {
+    background-color: rgba(110, 118, 129, 0.4);
+}
+
+/* 深色模式表格样式 */
+.dark #preview table,
+body.dark #preview table {
+    border-color: var(--border-color);
+}
+
+.dark #preview th,
+body.dark #preview th {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.dark #preview td,
+body.dark #preview td {
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark #preview tr:nth-child(even),
+body.dark #preview tr:nth-child(even) {
+    background-color: var(--bg-tertiary);
 }

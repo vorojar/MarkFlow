@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarkFlow - 优雅的 Markdown 编辑器 | 实时预览 | 一键导出图片</title>
-    <meta name="description" content="MarkFlow 是一款专业的在线 Markdown 编辑器，支持实时预览、代码高亮、一键导出图片、快捷工具栏等功能。为开发者、技术写作者和内容创作者提供高效的写作体验。">
+    <meta name="description"
+        content="MarkFlow 是一款专业的在线 Markdown 编辑器，支持实时预览、代码高亮、一键导出图片、快捷工具栏等功能。为开发者、技术写作者和内容创作者提供高效的写作体验。">
     <meta name="keywords" content="Markdown编辑器,在线Markdown,实时预览,代码高亮,图片导出,技术写作,内容创作,开发文档">
     <meta name="author" content="Vorojar.Wu">
     <meta property="og:title" content="MarkFlow - 专业的 Markdown 编辑器">
@@ -19,6 +21,9 @@
     <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hljs-dark">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="scripts/tailwind.config.js"></script>
     <link rel="stylesheet" href="styles/style.css">
 </head>
@@ -29,10 +34,16 @@
         <div class="px-4 py-2">
             <div class="flex justify-between items-center">
                 <div class="text-lg font-bold text-gray-800 truncate max-w-[70%]">MarkFlow - 优雅的Markdown 编辑器</div>
-                <a href="https://github.com/vorojar/MarkFlow" target="_blank" class="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded hover:bg-gray-200 transition-colors flex items-center gap-1">
-                    <i class="fab fa-github text-base"></i>
-                    GitHub
-                </a>
+                <div class="flex items-center gap-2">
+                    <button id="darkModeBtn" class="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded hover:bg-gray-200 transition-colors flex items-center gap-1" title="切换深色模式">
+                        <i class="fas fa-moon text-base"></i>
+                    </button>
+                    <a href="https://github.com/vorojar/MarkFlow" target="_blank"
+                        class="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded hover:bg-gray-200 transition-colors flex items-center gap-1">
+                        <i class="fab fa-github text-base"></i>
+                        GitHub
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -45,7 +56,8 @@
                 <h3 class="text-lg font-semibold text-gray-800">图片导出设置</h3>
                 <button id="closeSettingsBtn" class="text-gray-500 hover:text-gray-700">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
             </div>
@@ -56,7 +68,8 @@
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700">背景颜色</label>
                     <div class="flex flex-wrap gap-2" id="bgColorOptions">
-                        <div class="color-option selected" style="background-color: #ffffff;" data-color="#ffffff"></div>
+                        <div class="color-option selected" style="background-color: #ffffff;" data-color="#ffffff">
+                        </div>
                         <div class="color-option" style="background-color: #f8fafc;" data-color="#f8fafc"></div>
                         <div class="color-option" style="background-color: #f1f5f9;" data-color="#f1f5f9"></div>
                         <div class="color-option" style="background-color: #fef2f2;" data-color="#fef2f2"></div>
@@ -71,31 +84,27 @@
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700">边框样式</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50 selected" data-border-style="simple">简约边框</button>
-                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50" data-border-style="shadow">阴影边框</button>
+                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50 selected"
+                            data-border-style="simple">简约边框</button>
+                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50"
+                            data-border-style="shadow">阴影边框</button>
                     </div>
                 </div>
 
                 <!-- 水印文字 -->
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-gray-700">水印文字</label>
-                    <input type="text" id="watermarkText" class="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" value="由 MarkFlow 生成" placeholder="输入水印文字">
+                    <input type="text" id="watermarkText"
+                        class="w-full px-3 py-2 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        value="由 MarkFlow 生成" placeholder="输入水印文字">
                 </div>
 
-                <!-- 内边距大小 -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-gray-700">内边距大小</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50" data-padding="small">小</button>
-                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50 selected" data-padding="medium">中</button>
-                        <button class="style-button border rounded px-3 py-2 text-sm hover:bg-gray-50" data-padding="large">大</button>
-                    </div>
-                </div>
             </div>
 
             <!-- 底部按钮 -->
             <div class="border-t p-4">
-                <button id="resetSettings" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors">恢复默认设置</button>
+                <button id="resetSettings"
+                    class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors">恢复默认设置</button>
             </div>
         </div>
     </div>
@@ -162,11 +171,15 @@
                 </div>
                 <div class="editor-container">
                     <div class="line-numbers" id="lineNumbers"></div>
-                    <textarea
-                        id="editor"
-                        class="focus:outline-none focus:ring-1 focus:ring-blue-500 custom-scrollbar"
-                        placeholder="在这里输入 Markdown 内容..."
-                    ></textarea>
+                    <textarea id="editor" class="focus:outline-none focus:ring-1 focus:ring-blue-500 custom-scrollbar"
+                        placeholder="在这里输入 Markdown 内容..."></textarea>
+                </div>
+                <div id="statusBar" class="status-bar">
+                    <span id="wordCount">0 字</span>
+                    <span class="status-divider">|</span>
+                    <span id="charCount">0 字符</span>
+                    <span class="status-divider">|</span>
+                    <span id="readTime">约 0 分钟</span>
                 </div>
             </div>
 
@@ -175,14 +188,20 @@
                 <div class="md-toolbar">
                     <h2 class="text-base font-semibold text-gray-700">预览区</h2>
                     <div class="toolbar-group ml-auto">
-                        <button id="copyHtmlBtn" class="px-2.5 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors flex items-center">
-                            <i class="fas fa-copy mr-1"></i>
-                            复制
+                        <button id="copyHtmlBtn"
+                            class="px-2.5 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors flex items-center">
+                            <i class="fas fa-copy mr-1"></i>复制
                         </button>
-                        <button id="generateImageBtn" class="px-2.5 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition-colors flex items-center">
+                        <button id="generatePdfBtn"
+                            class="px-2.5 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition-colors flex items-center ml-2">
+                            <i class="fas fa-file-pdf mr-1"></i>生成PDF
+                        </button>
+                        <button id="generateImageBtn"
+                            class="px-2.5 py-1 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 transition-colors flex items-center ml-2">
                             <i class="fas fa-image mr-2"></i>生成图片
                         </button>
-                        <button onclick="showSettings()" class="px-2.5 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors flex items-center">
+                        <button onclick="showSettings()"
+                            class="px-2.5 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors flex items-center ml-2">
                             <i class="fas fa-cog mr-1"></i>
                             设置
                         </button>
@@ -193,6 +212,7 @@
             </div>
         </div>
     </div>
-<script src="scripts/main.js"></script>
+    <script src="scripts/main.js?v=1.1"></script>
 </body>
+
 </html>
