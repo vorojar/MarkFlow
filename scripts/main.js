@@ -40,7 +40,7 @@ marked.setOptions({
 
 // 渲染 Markdown 内容到预览区
 function renderPreview(content) {
-    preview.innerHTML = marked.parse(content);
+    preview.innerHTML = DOMPurify.sanitize(marked.parse(content));
     // 代码高亮
     preview.querySelectorAll('pre code').forEach(function (block) {
         hljs.highlightElement(block);
@@ -80,6 +80,7 @@ editor.addEventListener('input', function () {
     renderPreview(content);
     saveContent(content);
     updateLineNumbers();
+    updateWordCount();
     clearHighlights();
 });
 
@@ -90,6 +91,7 @@ clearBtn.addEventListener('click', function () {
     preview.innerHTML = '';
     localStorage.removeItem('markdown-content');
     updateLineNumbers();
+    updateWordCount();
 });
 
 // ===== 文件拖放导入功能 =====
@@ -255,16 +257,16 @@ function isColorDark(hexColor) {
 }
 
 // 设置按钮加载状态
-function setButtonLoading(button, isLoading, loadingText, normalText) {
-    button.textContent = isLoading ? loadingText : normalText;
+function setButtonLoading(button, isLoading, loadingText, originalHTML) {
+    button.innerHTML = isLoading ? loadingText : originalHTML;
     button.disabled = isLoading;
 }
 
 // 显示按钮错误状态并自动恢复
-function showButtonError(button, normalText, delay) {
-    button.textContent = '生成失败';
+function showButtonError(button, originalHTML, delay) {
+    button.innerHTML = '生成失败';
     setTimeout(function () {
-        button.textContent = normalText;
+        button.innerHTML = originalHTML;
         button.disabled = false;
     }, delay || 2000);
 }
@@ -409,8 +411,8 @@ function optimizeClonedStyles(clonedDoc) {
 
 // 生成图片按钮
 generateImageBtn.addEventListener('click', async function () {
-    const normalText = '生成图片';
-    setButtonLoading(generateImageBtn, true, '生成中...', normalText);
+    const originalHTML = generateImageBtn.innerHTML;
+    setButtonLoading(generateImageBtn, true, '生成中...', originalHTML);
 
     const wrapper = createImageWrapper();
     document.body.appendChild(wrapper);
@@ -438,11 +440,11 @@ generateImageBtn.addEventListener('click', async function () {
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
 
-        setButtonLoading(generateImageBtn, false, '生成中...', normalText);
+        setButtonLoading(generateImageBtn, false, '生成中...', originalHTML);
     } catch (error) {
         console.error('生成图片失败:', error);
         document.body.removeChild(wrapper);
-        showButtonError(generateImageBtn, normalText);
+        showButtonError(generateImageBtn, originalHTML);
     }
 });
 
@@ -586,7 +588,7 @@ function highlightInPreview(searchText) {
     const contextEnd = Math.min(editorValue.length, editor.selectionEnd + 20);
     const context = editorValue.substring(contextStart, contextEnd);
 
-    const htmlContent = marked.parse(editorValue);
+    const htmlContent = DOMPurify.sanitize(marked.parse(editorValue));
     preview.innerHTML = htmlContent;
 
     const tempDiv = document.createElement('div');
@@ -609,7 +611,7 @@ function highlightInPreview(searchText) {
                 span.className = 'highlight-text';
 
                 range.setStart(node, offset);
-                range.setEnd(node, offset + searchText.length);
+                range.setEnd(node, Math.min(offset + searchText.length, nodeLength));
                 range.surroundContents(span);
                 break;
             }
@@ -756,8 +758,6 @@ function updateWordCount() {
 // 初始化字数统计
 updateWordCount();
 
-// 在 input 事件中更新字数统计
-editor.addEventListener('input', updateWordCount);
 
 // ===== 深色模式功能 =====
 function initDarkMode() {

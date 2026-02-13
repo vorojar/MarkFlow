@@ -61,6 +61,7 @@
 | HTML5 + 原生 JavaScript | 前端核心 |
 | Tailwind CSS | 样式框架 |
 | Marked.js | Markdown 解析 |
+| DOMPurify | XSS 安全过滤 |
 | highlight.js | 代码语法高亮 |
 | html2canvas | 图片导出 |
 | Font Awesome | 图标库 |
@@ -92,6 +93,20 @@
 如果您觉得 MarkFlow 对您有帮助，欢迎给我们一个 star
 
 ## 更新日志
+
+### v1.2.1 (2026年2月13日)
+
+**安全**
+- 引入 DOMPurify，对 Markdown 渲染输出进行 XSS 安全过滤
+
+**修复**
+- 修复按钮加载/错误状态丢失图标的问题
+- 修复预览区高亮选中文本时的范围越界问题
+- 修复字数统计事件重复绑定的问题
+
+**优化**
+- 合并重复的工具栏 CSS 样式，减少冗余代码
+- 清空按钮操作后同步更新字数统计
 
 ### v1.2.0 (2026年1月29日)
 
@@ -127,6 +142,7 @@
 - **吴龙杰** - 项目负责人与主要开发者
 - **Cursor+ Claude Sonnet3.5** - V1.0.0 ~ V1.1.0
 - **Claude Code+Opus4.5** - V1.2.0
+- **Claude Code+Opus4.6** - V1.2.1
 
 ---
 

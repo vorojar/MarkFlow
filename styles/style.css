@@ -1,4 +1,4 @@
-html, body {    
+html, body {
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -26,22 +26,22 @@ html, body {
 
 /* 设置面板动画 */
 @keyframes slideIn {
-    from { 
+    from {
         transform: translateX(100%);
         opacity: 0;
     }
-    to { 
+    to {
         transform: translateX(0);
         opacity: 1;
     }
 }
 
 @keyframes slideOut {
-    from { 
+    from {
         transform: translateX(0);
         opacity: 1;
     }
-    to { 
+    to {
         transform: translateX(100%);
         opacity: 0;
     }
@@ -132,7 +132,7 @@ html, body {
     padding: 4px 8px;
     position: absolute;
     z-index: 1;
-    top: calc(100% + 5px); /* 调整距离按钮的距离 */
+    top: calc(100% + 5px);
     left: 50%;
     transform: translateX(-50%);
     font-size: 12px;
@@ -165,32 +165,6 @@ html, body {
     margin-left: 0;
 }
 
-/* 确保 tooltip 不会被遮挡 */
-.md-toolbar {
-    position: relative;
-    z-index: 2;
-}
-
-.toolbar-group {
-    display: flex;
-    gap: 0.25rem;
-}
-
-.md-toolbar button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    padding: 0;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    background-color: white;
-    color: #4a5568;
-    transition: all 0.2s;
-    position: relative;
-}
-
 /* 工具栏右侧按钮样式 */
 .toolbar-group:last-child button {
     width: auto;
@@ -199,14 +173,14 @@ html, body {
 
 /* 工具栏右侧按钮组中倒数第二个按钮（复制按钮）的tooltip位置调整 */
 .toolbar-group:last-child .tooltip:nth-last-child(2) .tooltiptext {
-    right: -50%; /* 向右偏移，确保文本居中显示 */
+    right: -50%;
     left: auto;
     transform: none;
 }
 
 /* 倒数第二个按钮的tooltip箭头位置调整 */
 .toolbar-group:last-child .tooltip:nth-last-child(2) .tooltiptext::before {
-    right: 45%; /* 箭头位置稍微偏右 */
+    right: 45%;
     left: auto;
     margin-left: 0;
 }
@@ -216,9 +190,10 @@ html, body {
     opacity: 1;
 }
 
+/* 工具栏样式（合并后） */
 .md-toolbar {
     display: flex;
-    justify-content: space-between; /* 两端对齐 */
+    justify-content: space-between;
     gap: 0.25rem;
     padding: 0.5rem;
     background-color: #f8f9fa;
@@ -229,6 +204,9 @@ html, body {
 }
 
 .md-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     border: 1px solid #e2e8f0;
@@ -242,6 +220,11 @@ html, body {
 .md-toolbar button:hover {
     background-color: #edf2f7;
     border-color: #cbd5e0;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .editor-container {
@@ -277,7 +260,6 @@ html, body {
     line-height: 1.5;
     resize: none;
     overflow-y: auto;
-    transition: background-color 0.2s;
 }
 
 #editor.drag-over {
@@ -287,11 +269,6 @@ html, body {
 .dark #editor.drag-over,
 body.dark #editor.drag-over {
     background-color: #1e3a5f;
-}
-
-.toolbar-group {
-    display: flex;
-    gap: 0.5rem;
 }
 
 /* 最后一个tooltip（清空按钮）的位置调整 */
