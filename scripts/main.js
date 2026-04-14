@@ -58,6 +58,18 @@ function saveContent(content) {
     localStorage.setItem('markdown-content', content);
 }
 
+function debounce(fn, delay) {
+    let timer;
+    return function () {
+        const args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
+const debouncedSave = debounce(saveContent, 300);
+const debouncedWordCount = debounce(updateWordCount, 200);
+
 // 初始化编辑器内容
 function initEditorContent() {
     const savedContent = localStorage.getItem('markdown-content');
@@ -84,10 +96,10 @@ initEditorContent();
 editor.addEventListener('input', function () {
     const content = this.value;
     renderPreview(content);
-    saveContent(content);
     updateLineNumbers();
-    updateWordCount();
     clearHighlights();
+    debouncedSave(content);
+    debouncedWordCount();
 });
 
 // 清空按钮
@@ -198,10 +210,19 @@ function updateSettingsUI() {
 
 // 从本地存储加载设置
 function loadSettings() {
-    const savedSettings = localStorage.getItem('image-settings');
-    if (savedSettings) {
-        Object.assign(imageSettings, JSON.parse(savedSettings));
+    try {
+        const savedSettings = localStorage.getItem('image-settings');
+        if (!savedSettings) return;
+        const parsed = JSON.parse(savedSettings);
+        if (typeof parsed !== 'object' || parsed === null) return;
+        for (const key of Object.keys(DEFAULT_IMAGE_SETTINGS)) {
+            if (key in parsed && typeof parsed[key] === typeof DEFAULT_IMAGE_SETTINGS[key]) {
+                imageSettings[key] = parsed[key];
+            }
+        }
         updateSettingsUI();
+    } catch (e) {
+        localStorage.removeItem('image-settings');
     }
 }
 
@@ -439,7 +460,6 @@ generateImageBtn.addEventListener('click', async function () {
     document.body.appendChild(wrapper);
 
     try {
-        // 等待字体和 CSS 完全加载
         await new Promise(resolve => setTimeout(resolve, 100));
 
         const canvas = await html2canvas(wrapper, {
@@ -452,9 +472,6 @@ generateImageBtn.addEventListener('click', async function () {
             onclone: optimizeClonedStyles
         });
 
-        document.body.removeChild(wrapper);
-
-        // 下载图片
         const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
         const link = document.createElement('a');
         link.download = `${getDocTitle('markdown')}-${timestamp}.png`;
@@ -464,8 +481,11 @@ generateImageBtn.addEventListener('click', async function () {
         setButtonLoading(generateImageBtn, false, '生成中...', originalHTML);
     } catch (error) {
         console.error('生成图片失败:', error);
-        document.body.removeChild(wrapper);
         showButtonError(generateImageBtn, originalHTML);
+    } finally {
+        if (wrapper.parentNode) {
+            wrapper.parentNode.removeChild(wrapper);
+        }
     }
 });
 
