@@ -20,6 +20,7 @@ const overlay = document.getElementById('overlay');
 const resetSettingsBtn = document.getElementById('resetSettings');
 const watermarkTextInput = document.getElementById('watermarkText');
 const lineNumbersEl = document.getElementById('lineNumbers');
+const saveMdBtn = document.getElementById('saveMdBtn');
 const darkModeBtn = document.getElementById('darkModeBtn');
 const wordCountEl = document.getElementById('wordCount');
 const charCountEl = document.getElementById('charCount');
@@ -149,6 +150,18 @@ editor.addEventListener('drop', function (e) {
 });
 
 // 复制编辑区内容按钮
+saveMdBtn.addEventListener('click', function () {
+    const content = editor.value;
+    if (!content.trim()) return;
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'document.md';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
 copyBtn.addEventListener('click', function () {
     copyToClipboard(editor.value, copyBtn, '<i class="fas fa-copy mr-1"></i>');
 });
