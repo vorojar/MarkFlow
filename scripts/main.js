@@ -26,6 +26,11 @@ const wordCountEl = document.getElementById('wordCount');
 const charCountEl = document.getElementById('charCount');
 const readTimeEl = document.getElementById('readTime');
 
+function getDocTitle(fallback) {
+    const match = editor.value.match(/^#{1,6}\s+(.+)/m);
+    return match ? match[1].trim() : fallback;
+}
+
 // 配置 marked 渲染器支持高亮语法
 const renderer = new marked.Renderer();
 const defaultTextRenderer = renderer.text.bind(renderer);
@@ -157,7 +162,7 @@ saveMdBtn.addEventListener('click', function () {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'document.md';
+    a.download = getDocTitle('document') + '.md';
     a.click();
     URL.revokeObjectURL(url);
 });
@@ -286,7 +291,10 @@ function showButtonError(button, originalHTML, delay) {
 
 // 生成 PDF 按钮 - 使用浏览器原生打印功能
 generatePdfBtn.addEventListener('click', function () {
+    const originalTitle = document.title;
+    document.title = getDocTitle('MarkFlow');
     window.print();
+    document.title = originalTitle;
 });
 
 // 图片生成样式常量
@@ -449,7 +457,7 @@ generateImageBtn.addEventListener('click', async function () {
         // 下载图片
         const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
         const link = document.createElement('a');
-        link.download = `markdown-${timestamp}.png`;
+        link.download = `${getDocTitle('markdown')}-${timestamp}.png`;
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
 
