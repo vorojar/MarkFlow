@@ -322,7 +322,7 @@ generatePdfBtn.addEventListener('click', function () {
 const IMAGE_STYLES = {
     containerWidth: '600px',
     fontSize: '16px',
-    lineHeight: 1.8,
+    lineHeight: 1.6,
     headerScale: 1.1,
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 };
@@ -399,7 +399,6 @@ function optimizeClonedStyles(clonedDoc) {
 
     const { headerScale } = IMAGE_STYLES;
 
-    // 优化文本渲染
     container.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, span, td, th').forEach(function (el) {
         el.style.letterSpacing = '0.3px';
         el.style.wordSpacing = '0.5px';
@@ -407,7 +406,6 @@ function optimizeClonedStyles(clonedDoc) {
         el.style.webkitFontSmoothing = 'antialiased';
     });
 
-    // 调整标题样式
     container.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(function (header) {
         const currentSize = parseFloat(window.getComputedStyle(header).fontSize);
         header.style.fontSize = `${currentSize * headerScale}px`;
@@ -415,7 +413,36 @@ function optimizeClonedStyles(clonedDoc) {
         header.style.marginBottom = '0.7em';
     });
 
-    // 调整代码块样式
+    container.querySelectorAll('ol').forEach(function (ol) {
+        Object.assign(ol.style, {
+            listStyleType: 'decimal',
+            paddingLeft: '2em',
+            marginBottom: '1em'
+        });
+    });
+
+    container.querySelectorAll('ul').forEach(function (ul) {
+        Object.assign(ul.style, {
+            listStyleType: 'disc',
+            paddingLeft: '2em',
+            marginBottom: '1em'
+        });
+    });
+
+    container.querySelectorAll('li').forEach(function (li) {
+        li.style.marginBottom = '0.4em';
+    });
+
+    container.querySelectorAll('blockquote').forEach(function (bq) {
+        Object.assign(bq.style, {
+            borderLeft: '4px solid #e5e7eb',
+            paddingLeft: '1em',
+            fontStyle: 'italic',
+            margin: '1em 0',
+            color: '#6b7280'
+        });
+    });
+
     container.querySelectorAll('pre code').forEach(function (block) {
         Object.assign(block.style, {
             backgroundColor: '#f3f4f6',
@@ -429,25 +456,60 @@ function optimizeClonedStyles(clonedDoc) {
         });
     });
 
-    // 调整图片样式
+    container.querySelectorAll(':not(pre) > code').forEach(function (code) {
+        Object.assign(code.style, {
+            backgroundColor: '#f3f4f6',
+            padding: '0.2em 0.4em',
+            borderRadius: '4px',
+            fontSize: '0.875em',
+            fontFamily: 'Consolas, Monaco, "Andale Mono", monospace'
+        });
+    });
+
     container.querySelectorAll('img').forEach(function (img) {
         img.style.maxWidth = '100%';
         img.style.height = 'auto';
     });
 
-    // 调整表格样式
     container.querySelectorAll('table').forEach(function (table) {
         Object.assign(table.style, {
             fontSize: '14px',
             width: '100%',
-            borderCollapse: 'separate',
-            borderSpacing: '2px'
+            borderCollapse: 'collapse'
         });
     });
 
-    // 调整段落间距
+    container.querySelectorAll('th, td').forEach(function (cell) {
+        Object.assign(cell.style, {
+            border: '1px solid #e5e7eb',
+            padding: '0.75em 1em'
+        });
+    });
+
+    container.querySelectorAll('th').forEach(function (th) {
+        Object.assign(th.style, {
+            backgroundColor: '#f3f4f6',
+            textAlign: 'left'
+        });
+    });
+
     container.querySelectorAll('p').forEach(function (p) {
         p.style.marginBottom = '0.8em';
+    });
+
+    container.querySelectorAll('hr').forEach(function (hr) {
+        Object.assign(hr.style, {
+            margin: '1.5em 0',
+            border: 'none',
+            borderTop: '1px solid #e5e7eb'
+        });
+    });
+
+    container.querySelectorAll('a').forEach(function (a) {
+        Object.assign(a.style, {
+            color: '#2563eb',
+            textDecoration: 'none'
+        });
     });
 }
 
