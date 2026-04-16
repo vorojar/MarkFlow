@@ -392,6 +392,47 @@ function createImageWrapper() {
     return wrapper;
 }
 
+// html2canvas 无法正确渲染 ::marker 伪元素，将列表转为 div 结构
+function convertListsForExport(container) {
+    container.querySelectorAll('ol').forEach(function (ol) {
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'margin-bottom: 1em;';
+        ol.querySelectorAll(':scope > li').forEach(function (li, i) {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; margin-bottom: 0.4em;';
+            const marker = document.createElement('span');
+            marker.textContent = (i + 1) + '.';
+            marker.style.cssText = 'min-width: 1.5em; flex-shrink: 0; color: #374151;';
+            const body = document.createElement('span');
+            body.style.cssText = 'flex: 1;';
+            body.innerHTML = li.innerHTML;
+            row.appendChild(marker);
+            row.appendChild(body);
+            wrapper.appendChild(row);
+        });
+        ol.parentNode.replaceChild(wrapper, ol);
+    });
+
+    container.querySelectorAll('ul').forEach(function (ul) {
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'margin-bottom: 1em;';
+        ul.querySelectorAll(':scope > li').forEach(function (li) {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; margin-bottom: 0.4em;';
+            const marker = document.createElement('span');
+            marker.textContent = '\u2022';
+            marker.style.cssText = 'min-width: 1.5em; flex-shrink: 0; color: #374151;';
+            const body = document.createElement('span');
+            body.style.cssText = 'flex: 1;';
+            body.innerHTML = li.innerHTML;
+            row.appendChild(marker);
+            row.appendChild(body);
+            wrapper.appendChild(row);
+        });
+        ul.parentNode.replaceChild(wrapper, ul);
+    });
+}
+
 // 优化克隆文档中的元素样式
 function optimizeClonedStyles(clonedDoc) {
     const container = clonedDoc.querySelector('.markdown-preview');
@@ -411,22 +452,6 @@ function optimizeClonedStyles(clonedDoc) {
         header.style.fontSize = `${currentSize * headerScale}px`;
         header.style.letterSpacing = '0.5px';
         header.style.marginBottom = '0.7em';
-    });
-
-    container.querySelectorAll('ol').forEach(function (ol) {
-        Object.assign(ol.style, {
-            listStyleType: 'decimal',
-            paddingLeft: '2em',
-            marginBottom: '1em'
-        });
-    });
-
-    container.querySelectorAll('ul').forEach(function (ul) {
-        Object.assign(ul.style, {
-            listStyleType: 'disc',
-            paddingLeft: '2em',
-            marginBottom: '1em'
-        });
     });
 
     container.querySelectorAll('li').forEach(function (li) {
@@ -523,6 +548,8 @@ generateImageBtn.addEventListener('click', async function () {
 
     try {
         await new Promise(resolve => setTimeout(resolve, 100));
+
+        convertListsForExport(wrapper.querySelector('.markdown-preview'));
 
         const canvas = await html2canvas(wrapper, {
             scale: 3,
