@@ -28,7 +28,8 @@ const readTimeEl = document.getElementById('readTime');
 
 function getDocTitle(fallback) {
     const match = editor.value.match(/^#{1,6}\s+(.+)/m);
-    return match ? match[1].trim() : fallback;
+    if (!match) return fallback;
+    return match[1].trim().replace(/[\\/:*?"<>|]/g, '_');
 }
 
 // 配置 marked 渲染器支持高亮语法
@@ -166,7 +167,7 @@ editor.addEventListener('drop', function (e) {
     }
 });
 
-// 复制编辑区内容按钮
+// 保存为 MD 文件按钮
 saveMdBtn.addEventListener('click', function () {
     const content = editor.value;
     if (!content.trim()) return;
@@ -394,43 +395,27 @@ function createImageWrapper() {
 
 // html2canvas 无法正确渲染 ::marker 伪元素，将列表转为 div 结构
 function convertListsForExport(container) {
-    container.querySelectorAll('ol').forEach(function (ol) {
+    function convertList(list) {
+        const isOrdered = list.tagName === 'OL';
         const wrapper = document.createElement('div');
         wrapper.style.cssText = 'margin-bottom: 1em;';
-        ol.querySelectorAll(':scope > li').forEach(function (li, i) {
+        list.querySelectorAll(':scope > li').forEach(function (li, i) {
             const row = document.createElement('div');
             row.style.cssText = 'display: flex; margin-bottom: 0.4em;';
             const marker = document.createElement('span');
-            marker.textContent = (i + 1) + '.';
+            marker.textContent = isOrdered ? (i + 1) + '.' : '\u2022';
             marker.style.cssText = 'min-width: 1.5em; flex-shrink: 0; color: #374151;';
             const body = document.createElement('span');
             body.style.cssText = 'flex: 1;';
             body.innerHTML = li.innerHTML;
+            body.querySelectorAll('ol, ul').forEach(convertList);
             row.appendChild(marker);
             row.appendChild(body);
             wrapper.appendChild(row);
         });
-        ol.parentNode.replaceChild(wrapper, ol);
-    });
-
-    container.querySelectorAll('ul').forEach(function (ul) {
-        const wrapper = document.createElement('div');
-        wrapper.style.cssText = 'margin-bottom: 1em;';
-        ul.querySelectorAll(':scope > li').forEach(function (li) {
-            const row = document.createElement('div');
-            row.style.cssText = 'display: flex; margin-bottom: 0.4em;';
-            const marker = document.createElement('span');
-            marker.textContent = '\u2022';
-            marker.style.cssText = 'min-width: 1.5em; flex-shrink: 0; color: #374151;';
-            const body = document.createElement('span');
-            body.style.cssText = 'flex: 1;';
-            body.innerHTML = li.innerHTML;
-            row.appendChild(marker);
-            row.appendChild(body);
-            wrapper.appendChild(row);
-        });
-        ul.parentNode.replaceChild(wrapper, ul);
-    });
+        list.parentNode.replaceChild(wrapper, list);
+    }
+    container.querySelectorAll(':scope > ol, :scope > ul').forEach(convertList);
 }
 
 // 优化克隆文档中的元素样式
